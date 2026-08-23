@@ -1,0 +1,459 @@
+/* ============================================================
+   SIGNS IN MOTION
+   Animated SVG explainers of neurological signs.
+   Line drawings, not patient recordings — nothing here
+   identifies a real person.
+
+   Timings are deliberately slow: each cycle is meant to be
+   followed by someone who has never seen the sign before.
+   The tremor keyframes in this file are generated — see
+   build_motion.py — so a single hand carries both the
+   reaching movement and the shake.
+   ============================================================ */
+
+.anim-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.4rem}
+@media(max-width:900px){.anim-grid{grid-template-columns:1fr}}
+
+.anim-card{
+  background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+  overflow:hidden;display:flex;flex-direction:column;margin:0;
+}
+.anim-stage{
+  background:linear-gradient(180deg,#F2F8F8 0%,#fff 90%);
+  border-bottom:1px solid var(--line);padding:1.2rem .9rem .6rem;
+}
+.anim-stage svg{width:100%;height:auto;max-height:290px;display:block;margin-inline:auto}
+.anim-body{padding:1.5rem 1.5rem 1.6rem}
+.anim-body h3{margin-bottom:.45rem}
+.anim-body>p{font-size:.95rem;color:var(--ink-soft);margin-bottom:.95rem}
+.anim-look{
+  font-size:.9rem;color:var(--ink);border-left:2px solid var(--teal);
+  padding-left:.9rem;margin-bottom:0;
+}
+.anim-look b{
+  display:block;font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--teal-deep);margin-bottom:.3rem;font-weight:500;
+}
+body.lang-gu .anim-look b{font-family:var(--guj);text-transform:none;letter-spacing:0;font-size:.82rem}
+
+.anim-toolbar{display:flex;gap:.8rem;align-items:center;flex-wrap:wrap;margin-bottom:2.2rem}
+
+/* ---- drawing styles ---- */
+.fig .ln{fill:none;stroke:var(--ink);stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+.fig .thin{stroke-width:2.2}
+.fig .skin{fill:#FFF6EF;stroke:var(--ink);stroke-width:3.2}
+.fig .sk{fill:#FFF6EF;stroke:none}
+.fig .ac{fill:none;stroke:var(--teal-deep);stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round}
+.fig .ac-fill{fill:var(--ink)}
+.fig .hand{fill:#FFF6EF;stroke:var(--ink);stroke-width:3}
+.fig .warn{fill:rgba(184,64,46,.09)}
+.fig .warn-ln{stroke:var(--alert);stroke-width:3.4;fill:none;stroke-linecap:round}
+.fig .ghost{stroke:#B9C9CC;stroke-width:2;fill:none;stroke-dasharray:5 5}
+.fig .cue{
+  font-family:"IBM Plex Mono",monospace;font-size:13px;fill:var(--teal-deep);
+  letter-spacing:.06em;text-transform:uppercase;font-weight:500;
+}
+.fig .side{
+  font-family:"IBM Plex Mono",monospace;font-size:11.5px;fill:var(--alert);
+  letter-spacing:.05em;text-transform:uppercase;
+}
+.fig .side-ok{fill:var(--ink-soft)}
+.fig [class^="an-"],.fig [class*=" an-"],.fig [style*="animation"]{transform-box:fill-box}
+
+body.anims-paused .fig *{animation-play-state:paused!important}
+body.lang-gu .fig .cue,body.lang-gu .fig .side{
+  font-family:"Hind Vadodara",sans-serif;letter-spacing:0;text-transform:none;font-size:13.5px;
+}
+
+/* ---- examination cues: rest -> raise brows -> smile/close ---- */
+@keyframes cue1{0%,26%{opacity:1}31%,100%{opacity:0}}
+@keyframes cue2{0%,30%{opacity:0}35%,58%{opacity:1}63%,100%{opacity:0}}
+@keyframes cue3{0%,62%{opacity:0}67%,94%{opacity:1}100%{opacity:0}}
+
+/* ---- face ---- */
+@keyframes browUp{0%,30%{transform:translateY(0)}42%,58%{transform:translateY(-13px)}70%,100%{transform:translateY(0)}}
+@keyframes browStill{0%,100%{transform:translateY(0)}}
+@keyframes foreheadLines{0%,32%{opacity:0}44%,58%{opacity:1}68%,100%{opacity:0}}
+
+@keyframes cornerUpL{0%,62%{transform:rotate(0)}74%,92%{transform:rotate(15deg)}100%{transform:rotate(0)}}
+@keyframes cornerUpR{0%,62%{transform:rotate(0)}74%,92%{transform:rotate(-15deg)}100%{transform:rotate(0)}}
+@keyframes cornerDroopR{0%,62%{transform:rotate(7deg)}74%,92%{transform:rotate(14deg)}100%{transform:rotate(7deg)}}
+
+@keyframes lidShut{0%,62%{transform:translateY(-30px)}74%,92%{transform:translateY(0)}100%{transform:translateY(-30px)}}
+@keyframes lidFails{0%,62%{transform:translateY(-30px)}74%,92%{transform:translateY(-17px)}100%{transform:translateY(-30px)}}
+@keyframes eyeRollUp{0%,62%{transform:translateY(0)}74%,92%{transform:translateY(-7px)}100%{transform:translateY(0)}}
+@keyframes foldFade{0%,100%{opacity:.25}}
+
+/* ---- myasthenia: lid sinks through sustained upgaze, recovers after rest ---- */
+@keyframes ptosisFatigue{
+  0%,6%{transform:translateY(-30px)}
+  26%{transform:translateY(-22px)}
+  46%{transform:translateY(-15px)}
+  64%{transform:translateY(-9px)}
+  70%,86%{transform:translateY(0)}
+  93%,100%{transform:translateY(-30px)}
+}
+@keyframes ptosisNormal{0%,66%{transform:translateY(-30px)}72%,86%{transform:translateY(0)}93%,100%{transform:translateY(-30px)}}
+@keyframes fatigueBar{0%{transform:scaleX(0)}66%{transform:scaleX(1)}70%,100%{transform:scaleX(0)}}
+@keyframes mgCue1{0%,64%{opacity:1}68%,100%{opacity:0}}
+@keyframes mgCue2{0%,66%{opacity:0}72%,88%{opacity:1}94%,100%{opacity:0}}
+
+/* ---- arm drift ---- */
+@keyframes armDrift{0%,20%{transform:rotate(0)}62%{transform:rotate(10deg)}86%,100%{transform:rotate(17deg)}}
+@keyframes armHold{0%,100%{transform:rotate(0)}}
+@keyframes pronate{0%,24%{transform:rotate(0)}86%,100%{transform:rotate(42deg)}}
+@keyframes driftLabel{0%,45%{opacity:0}65%,100%{opacity:1}}
+
+/* ---- hemiballismus: large, irregular, proximal ---- */
+@keyframes fling{
+  0%{transform:rotate(0)}9%{transform:rotate(-64deg)}16%{transform:rotate(-16deg)}
+  27%{transform:rotate(-82deg)}34%{transform:rotate(-28deg)}42%{transform:rotate(8deg)}
+  53%{transform:rotate(-72deg)}59%{transform:rotate(-10deg)}71%{transform:rotate(-54deg)}
+  78%{transform:rotate(-2deg)}89%{transform:rotate(-68deg)}100%{transform:rotate(0)}
+}
+@keyframes flingHand{0%,100%{transform:rotate(0)}20%{transform:rotate(36deg)}45%{transform:rotate(-30deg)}70%{transform:rotate(32deg)}}
+@keyframes flingLeg{0%,100%{transform:rotate(0)}14%{transform:rotate(-20deg)}38%{transform:rotate(9deg)}62%{transform:rotate(-24deg)}84%{transform:rotate(5deg)}}
+
+/* ---- bradykinesia: taps shrink and slow ---- */
+@keyframes tapDecrement{
+  0%{transform:rotate(0)}5%{transform:rotate(-30deg)}11%{transform:rotate(0)}
+  19%{transform:rotate(-25deg)}26%{transform:rotate(0)}37%{transform:rotate(-17deg)}
+  46%{transform:rotate(0)}59%{transform:rotate(-10deg)}71%{transform:rotate(0)}
+  84%{transform:rotate(-4deg)}100%{transform:rotate(0)}
+}
+@keyframes tapSteady{
+  0%,100%{transform:rotate(0)}10%{transform:rotate(-30deg)}20%{transform:rotate(0)}
+  30%{transform:rotate(-30deg)}40%{transform:rotate(0)}50%{transform:rotate(-30deg)}
+  60%{transform:rotate(0)}70%{transform:rotate(-30deg)}80%{transform:rotate(0)}
+  90%{transform:rotate(-30deg)}
+}
+
+@media(prefers-reduced-motion:reduce){.fig *{animation:none!important}}
+
+
+/* ---- generated tremor cycles ---- */
+@keyframes restTremorHand{
+  0%{transform:translate(0.00px,2.60px) rotate(0.00deg)}
+  1.111%{transform:translate(2.60px,-0.43px) rotate(2.20deg)}
+  2.222%{transform:translate(0.18px,-2.46px) rotate(0.15deg)}
+  3.333%{transform:translate(-2.59px,1.23px) rotate(-2.19deg)}
+  4.444%{transform:translate(-0.36px,2.06px) rotate(-0.31deg)}
+  5.556%{transform:translate(2.56px,-1.91px) rotate(2.17deg)}
+  6.667%{transform:translate(0.54px,-1.43px) rotate(0.46deg)}
+  7.778%{transform:translate(-2.52px,2.38px) rotate(-2.13deg)}
+  8.889%{transform:translate(-0.72px,0.65px) rotate(-0.61deg)}
+  10%{transform:translate(2.47px,-2.59px) rotate(2.09deg)}
+  11.11%{transform:translate(0.89px,0.20px) rotate(0.75deg)}
+  12.22%{transform:translate(-2.41px,2.52px) rotate(-2.04deg)}
+  13.33%{transform:translate(-1.06px,-1.03px) rotate(-0.89deg)}
+  14.44%{transform:translate(2.34px,-2.19px) rotate(1.98deg)}
+  15.56%{transform:translate(1.22px,1.75px) rotate(1.03deg)}
+  16.67%{transform:translate(-2.25px,1.61px) rotate(-1.91deg)}
+  17.78%{transform:translate(-1.38px,-2.27px) rotate(-1.17deg)}
+  18.89%{transform:translate(2.16px,-0.87px) rotate(1.82deg)}
+  20%{transform:translate(1.53px,2.56px) rotate(1.29deg)}
+  21.11%{transform:translate(-2.05px,0.03px) rotate(-1.73deg)}
+  22.22%{transform:translate(-1.67px,-2.57px) rotate(-1.41deg)}
+  23.33%{transform:translate(1.93px,0.81px) rotate(1.63deg)}
+  24.44%{transform:translate(1.81px,2.30px) rotate(1.53deg)}
+  25.56%{transform:translate(-1.81px,-1.57px) rotate(-1.53deg)}
+  26.67%{transform:translate(-1.93px,-1.79px) rotate(-1.63deg)}
+  27.78%{transform:translate(1.67px,2.16px) rotate(1.41deg)}
+  28.89%{transform:translate(2.05px,1.08px) rotate(1.73deg)}
+  30%{transform:translate(-1.53px,-2.51px) rotate(-1.29deg)}
+  31.11%{transform:translate(-2.12px,-0.25px) rotate(-1.79deg)}
+  32.22%{transform:translate(1.28px,2.42px) rotate(1.09deg)}
+  33.33%{transform:translate(1.93px,-0.51px) rotate(1.63deg)}
+  34.44%{transform:translate(-0.74px,-1.93px) rotate(-0.79deg)}
+  35.56%{transform:translate(0.70px,-0.32px) rotate(-1.29deg)}
+  36.67%{transform:translate(6.79px,-2.36px) rotate(0.48deg)}
+  37.78%{transform:translate(12.84px,-7.32px) rotate(0.85deg)}
+  38.89%{transform:translate(18.47px,-10.65px) rotate(-0.23deg)}
+  40%{transform:translate(26.09px,-14.07px) rotate(-0.41deg)}
+  41.11%{transform:translate(35.11px,-19.13px) rotate(0.07deg)}
+  42.22%{transform:translate(43.86px,-24.07px) rotate(0.09deg)}
+  43.33%{transform:translate(52.40px,-28.69px) rotate(-0.00deg)}
+  44.44%{transform:translate(60.65px,-33.21px) rotate(-0.00deg)}
+  45.56%{transform:translate(68.16px,-37.32px) rotate(0.00deg)}
+  46.67%{transform:translate(74.58px,-40.84px) rotate(0.00deg)}
+  47.78%{transform:translate(79.59px,-43.58px) rotate(-0.00deg)}
+  48.89%{transform:translate(82.84px,-45.37px) rotate(-0.00deg)}
+  50%{transform:translate(84.00px,-46.00px) rotate(-0.00deg)}
+  51.11%{transform:translate(84.00px,-46.00px) rotate(0.00deg)}
+  52.22%{transform:translate(84.00px,-46.00px) rotate(0.00deg)}
+  53.33%{transform:translate(84.00px,-46.00px) rotate(-0.00deg)}
+  54.44%{transform:translate(84.00px,-46.00px) rotate(-0.00deg)}
+  55.56%{transform:translate(84.00px,-46.00px) rotate(0.00deg)}
+  56.67%{transform:translate(84.00px,-46.00px) rotate(0.00deg)}
+  57.78%{transform:translate(84.00px,-46.00px) rotate(-0.00deg)}
+  58.89%{transform:translate(84.00px,-46.00px) rotate(-0.00deg)}
+  60%{transform:translate(84.00px,-46.00px) rotate(0.00deg)}
+  61.11%{transform:translate(84.00px,-46.00px) rotate(0.00deg)}
+  62.22%{transform:translate(84.00px,-46.00px) rotate(-0.00deg)}
+  63.33%{transform:translate(84.00px,-46.00px) rotate(-0.00deg)}
+  64.44%{transform:translate(84.00px,-46.00px) rotate(0.00deg)}
+  65.56%{transform:translate(84.00px,-46.00px) rotate(0.00deg)}
+  66.67%{transform:translate(84.00px,-46.00px) rotate(-0.00deg)}
+  67.78%{transform:translate(84.00px,-46.00px) rotate(-0.00deg)}
+  68.89%{transform:translate(84.00px,-46.00px) rotate(0.00deg)}
+  70%{transform:translate(84.00px,-46.00px) rotate(0.00deg)}
+  71.11%{transform:translate(84.00px,-46.00px) rotate(-0.00deg)}
+  72.22%{transform:translate(84.00px,-46.00px) rotate(-0.00deg)}
+  73.33%{transform:translate(84.00px,-46.00px) rotate(0.00deg)}
+  74.44%{transform:translate(84.00px,-46.00px) rotate(0.00deg)}
+  75.56%{transform:translate(84.00px,-46.00px) rotate(-0.00deg)}
+  76.67%{transform:translate(84.00px,-46.00px) rotate(-0.00deg)}
+  77.78%{transform:translate(84.00px,-46.00px) rotate(0.00deg)}
+  78.89%{transform:translate(84.00px,-46.00px) rotate(0.00deg)}
+  80%{transform:translate(84.00px,-46.00px) rotate(-0.00deg)}
+  81.11%{transform:translate(82.84px,-45.37px) rotate(-0.00deg)}
+  82.22%{transform:translate(79.59px,-43.59px) rotate(0.00deg)}
+  83.33%{transform:translate(74.63px,-40.85px) rotate(0.04deg)}
+  84.44%{transform:translate(68.07px,-37.14px) rotate(-0.07deg)}
+  85.56%{transform:translate(60.32px,-33.26px) rotate(-0.28deg)}
+  86.67%{transform:translate(52.65px,-29.27px) rotate(0.21deg)}
+  87.78%{transform:translate(44.55px,-23.58px) rotate(0.67deg)}
+  88.89%{transform:translate(34.64px,-18.25px) rotate(-0.33deg)}
+  90%{transform:translate(25.22px,-15.56px) rotate(-1.15deg)}
+  91.11%{transform:translate(19.21px,-11.26px) rotate(0.40deg)}
+  92.22%{transform:translate(13.76px,-4.71px) rotate(1.62deg)}
+  93.33%{transform:translate(5.76px,-2.76px) rotate(-0.39deg)}
+  94.44%{transform:translate(-0.14px,-3.60px) rotate(-2.00deg)}
+  95.56%{transform:translate(0.54px,-0.02px) rotate(0.30deg)}
+  96.67%{transform:translate(2.58px,2.55px) rotate(2.18deg)}
+  97.78%{transform:translate(-0.18px,-0.92px) rotate(-0.15deg)}
+  98.89%{transform:translate(-2.60px,-2.25px) rotate(-2.20deg)}
+  100%{transform:translate(-0.00px,1.66px) rotate(-0.00deg)}
+}
+
+@keyframes actionTremorHand{
+  0%{transform:translate(0.00px,0.00px) rotate(0.00deg)}
+  1.111%{transform:translate(0.00px,0.00px) rotate(0.00deg)}
+  2.222%{transform:translate(0.00px,0.00px) rotate(-0.00deg)}
+  3.333%{transform:translate(0.00px,0.00px) rotate(-0.00deg)}
+  4.444%{transform:translate(0.00px,0.00px) rotate(0.00deg)}
+  5.556%{transform:translate(0.00px,0.00px) rotate(0.00deg)}
+  6.667%{transform:translate(0.00px,0.00px) rotate(-0.00deg)}
+  7.778%{transform:translate(0.00px,0.00px) rotate(-0.00deg)}
+  8.889%{transform:translate(0.00px,0.00px) rotate(0.00deg)}
+  10%{transform:translate(0.00px,0.00px) rotate(0.00deg)}
+  11.11%{transform:translate(0.00px,0.00px) rotate(-0.00deg)}
+  12.22%{transform:translate(0.00px,0.00px) rotate(-0.00deg)}
+  13.33%{transform:translate(0.00px,0.00px) rotate(0.00deg)}
+  14.44%{transform:translate(0.00px,0.00px) rotate(0.00deg)}
+  15.56%{transform:translate(0.00px,0.00px) rotate(-0.00deg)}
+  16.67%{transform:translate(0.00px,0.00px) rotate(-0.00deg)}
+  17.78%{transform:translate(0.00px,0.00px) rotate(0.00deg)}
+  18.89%{transform:translate(0.00px,0.00px) rotate(-0.00deg)}
+  20%{transform:translate(0.00px,0.00px) rotate(-0.00deg)}
+  21.11%{transform:translate(0.00px,0.00px) rotate(0.00deg)}
+  22.22%{transform:translate(0.00px,0.00px) rotate(0.00deg)}
+  23.33%{transform:translate(0.00px,0.00px) rotate(-0.00deg)}
+  24.44%{transform:translate(0.00px,0.00px) rotate(-0.00deg)}
+  25.56%{transform:translate(0.00px,0.00px) rotate(0.00deg)}
+  26.67%{transform:translate(0.00px,0.00px) rotate(0.00deg)}
+  27.78%{transform:translate(0.00px,0.00px) rotate(-0.00deg)}
+  28.89%{transform:translate(0.00px,0.00px) rotate(-0.00deg)}
+  30%{transform:translate(0.00px,0.00px) rotate(0.00deg)}
+  31.11%{transform:translate(0.00px,0.00px) rotate(0.00deg)}
+  32.22%{transform:translate(0.00px,0.00px) rotate(-0.00deg)}
+  33.33%{transform:translate(0.00px,0.00px) rotate(-0.00deg)}
+  34.44%{transform:translate(0.19px,-0.10px) rotate(0.00deg)}
+  35.56%{transform:translate(2.23px,-1.22px) rotate(-0.00deg)}
+  36.67%{transform:translate(6.21px,-3.40px) rotate(-0.01deg)}
+  37.78%{transform:translate(11.87px,-6.48px) rotate(0.03deg)}
+  38.89%{transform:translate(18.89px,-10.43px) rotate(0.14deg)}
+  40%{transform:translate(26.38px,-14.36px) rotate(-0.17deg)}
+  41.11%{transform:translate(34.64px,-18.87px) rotate(-0.34deg)}
+  42.22%{transform:translate(44.30px,-24.66px) rotate(0.48deg)}
+  43.33%{transform:translate(52.98px,-28.68px) rotate(0.50deg)}
+  44.44%{transform:translate(59.59px,-32.05px) rotate(-0.93deg)}
+  45.56%{transform:translate(67.55px,-38.24px) rotate(-0.53deg)}
+  46.67%{transform:translate(76.26px,-41.82px) rotate(1.47deg)}
+  47.78%{transform:translate(80.01px,-41.63px) rotate(0.37deg)}
+  48.89%{transform:translate(80.58px,-45.49px) rotate(-1.98deg)}
+  50%{transform:translate(84.00px,-48.33px) rotate(-0.00deg)}
+  51.11%{transform:translate(86.70px,-44.25px) rotate(2.37deg)}
+  52.22%{transform:translate(83.40px,-44.49px) rotate(-0.53deg)}
+  53.33%{transform:translate(81.10px,-48.97px) rotate(-2.54deg)}
+  54.44%{transform:translate(85.28px,-45.70px) rotate(1.12deg)}
+  55.56%{transform:translate(86.77px,-43.08px) rotate(2.43deg)}
+  56.67%{transform:translate(82.12px,-48.16px) rotate(-1.65deg)}
+  57.78%{transform:translate(81.62px,-47.55px) rotate(-2.09deg)}
+  58.89%{transform:translate(86.38px,-42.85px) rotate(2.09deg)}
+  60%{transform:translate(85.88px,-46.44px) rotate(1.65deg)}
+  61.11%{transform:translate(81.23px,-48.87px) rotate(-2.43deg)}
+  62.22%{transform:translate(82.70px,-43.74px) rotate(-1.14deg)}
+  63.33%{transform:translate(87.04px,-44.57px) rotate(2.67deg)}
+  64.44%{transform:translate(84.67px,-49.17px) rotate(0.58deg)}
+  65.56%{transform:translate(80.82px,-45.43px) rotate(-2.79deg)}
+  66.67%{transform:translate(84.00px,-43.20px) rotate(-0.00deg)}
+  67.78%{transform:translate(87.18px,-48.35px) rotate(2.79deg)}
+  68.89%{transform:translate(83.33px,-47.31px) rotate(-0.58deg)}
+  70%{transform:translate(80.96px,-42.82px) rotate(-2.67deg)}
+  71.11%{transform:translate(85.30px,-46.70px) rotate(1.14deg)}
+  72.22%{transform:translate(86.77px,-48.74px) rotate(2.43deg)}
+  73.33%{transform:translate(82.12px,-43.56px) rotate(-1.65deg)}
+  74.44%{transform:translate(81.62px,-44.81px) rotate(-2.09deg)}
+  75.56%{transform:translate(86.38px,-49.19px) rotate(2.09deg)}
+  76.67%{transform:translate(85.88px,-45.17px) rotate(1.65deg)}
+  77.78%{transform:translate(81.23px,-43.33px) rotate(-2.43deg)}
+  78.89%{transform:translate(82.70px,-48.52px) rotate(-1.14deg)}
+  80%{transform:translate(87.04px,-47.07px) rotate(2.67deg)}
+  81.11%{transform:translate(83.51px,-42.17px) rotate(0.58deg)}
+  82.22%{transform:translate(76.41px,-44.55px) rotate(-2.79deg)}
+  83.33%{transform:translate(74.58px,-43.43px) rotate(-0.00deg)}
+  84.44%{transform:translate(71.34px,-34.72px) rotate(2.79deg)}
+  85.56%{transform:translate(59.99px,-32.28px) rotate(-0.58deg)}
+  86.67%{transform:translate(49.39px,-31.86px) rotate(-2.64deg)}
+  87.78%{transform:translate(44.96px,-22.94px) rotate(1.06deg)}
+  88.89%{transform:translate(37.33px,-17.10px) rotate(2.02deg)}
+  90%{transform:translate(25.26px,-16.43px) rotate(-1.15deg)}
+  91.11%{transform:translate(17.42px,-10.71px) rotate(-1.15deg)}
+  92.22%{transform:translate(12.79px,-5.20px) rotate(0.84deg)}
+  93.33%{transform:translate(6.71px,-3.72px) rotate(0.43deg)}
+  94.44%{transform:translate(1.85px,-1.55px) rotate(-0.33deg)}
+  95.56%{transform:translate(0.13px,0.03px) rotate(-0.05deg)}
+  96.67%{transform:translate(0.01px,0.00px) rotate(0.01deg)}
+  97.78%{transform:translate(0.00px,-0.00px) rotate(0.00deg)}
+  98.89%{transform:translate(0.00px,0.00px) rotate(-0.00deg)}
+  100%{transform:translate(0.00px,0.00px) rotate(-0.00deg)}
+}
+
+@keyframes dysmetriaHand{
+  0%{transform:translate(0.00px,0.00px) rotate(0.00deg)}
+  1.111%{transform:translate(0.00px,0.00px) rotate(0.00deg)}
+  2.222%{transform:translate(0.00px,0.00px) rotate(0.00deg)}
+  3.333%{transform:translate(0.00px,0.00px) rotate(0.00deg)}
+  4.444%{transform:translate(0.00px,0.00px) rotate(-0.00deg)}
+  5.556%{transform:translate(0.00px,0.00px) rotate(-0.00deg)}
+  6.667%{transform:translate(0.00px,0.00px) rotate(-0.00deg)}
+  7.778%{transform:translate(0.00px,0.00px) rotate(-0.00deg)}
+  8.889%{transform:translate(0.00px,0.00px) rotate(0.00deg)}
+  10%{transform:translate(0.00px,0.00px) rotate(0.00deg)}
+  11.11%{transform:translate(-0.66px,-0.39px) rotate(0.00deg)}
+  12.22%{transform:translate(-2.54px,-1.51px) rotate(0.00deg)}
+  13.33%{transform:translate(-5.48px,-3.26px) rotate(-0.00deg)}
+  14.44%{transform:translate(-9.34px,-5.55px) rotate(-0.00deg)}
+  15.56%{transform:translate(-14.00px,-8.25px) rotate(-0.02deg)}
+  16.67%{transform:translate(-19.19px,-11.42px) rotate(-0.00deg)}
+  17.78%{transform:translate(-24.63px,-15.06px) rotate(0.11deg)}
+  18.89%{transform:translate(-30.35px,-18.82px) rotate(0.24deg)}
+  20%{transform:translate(-36.57px,-22.17px) rotate(0.20deg)}
+  21.11%{transform:translate(-43.35px,-25.01px) rotate(-0.10deg)}
+  22.22%{transform:translate(-50.21px,-27.97px) rotate(-0.51deg)}
+  23.33%{transform:translate(-56.27px,-31.81px) rotate(-0.68deg)}
+  24.44%{transform:translate(-60.78px,-36.42px) rotate(-0.35deg)}
+  25.56%{transform:translate(-63.81px,-40.49px) rotate(0.40deg)}
+  26.67%{transform:translate(-66.27px,-42.50px) rotate(1.06deg)}
+  27.78%{transform:translate(-69.20px,-42.22px) rotate(1.07deg)}
+  28.89%{transform:translate(-72.75px,-41.14px) rotate(0.28deg)}
+  30%{transform:translate(-75.79px,-41.23px) rotate(-0.84deg)}
+  31.11%{transform:translate(-75.40px,-42.27px) rotate(-1.50deg)}
+  32.22%{transform:translate(-70.06px,-42.30px) rotate(-1.16deg)}
+  33.33%{transform:translate(-61.21px,-39.46px) rotate(-0.00deg)}
+  34.44%{transform:translate(-51.65px,-33.38px) rotate(1.19deg)}
+  35.56%{transform:translate(-44.20px,-26.21px) rotate(1.59deg)}
+  36.67%{transform:translate(-40.52px,-21.21px) rotate(0.94deg)}
+  37.78%{transform:translate(-40.78px,-20.61px) rotate(-0.33deg)}
+  38.89%{transform:translate(-43.35px,-23.75px) rotate(-1.39deg)}
+  40%{transform:translate(-45.16px,-27.20px) rotate(-1.52deg)}
+  41.11%{transform:translate(-45.72px,-28.70px) rotate(-0.65deg)}
+  42.22%{transform:translate(-46.01px,-28.07px) rotate(0.65deg)}
+  43.33%{transform:translate(-47.61px,-27.25px) rotate(1.52deg)}
+  44.44%{transform:translate(-51.50px,-28.53px) rotate(1.39deg)}
+  45.56%{transform:translate(-57.24px,-32.54px) rotate(0.33deg)}
+  46.67%{transform:translate(-63.09px,-37.58px) rotate(-0.94deg)}
+  47.78%{transform:translate(-67.04px,-40.93px) rotate(-1.59deg)}
+  48.89%{transform:translate(-67.90px,-40.95px) rotate(-1.19deg)}
+  50%{transform:translate(-66.00px,-38.36px) rotate(-0.00deg)}
+  51.11%{transform:translate(-62.63px,-35.39px) rotate(1.19deg)}
+  52.22%{transform:translate(-59.60px,-34.15px) rotate(1.59deg)}
+  53.33%{transform:translate(-57.98px,-34.85px) rotate(0.94deg)}
+  54.44%{transform:translate(-57.38px,-35.69px) rotate(-0.33deg)}
+  55.56%{transform:translate(-56.51px,-34.56px) rotate(-1.39deg)}
+  56.67%{transform:translate(-54.42px,-31.11px) rotate(-1.52deg)}
+  57.78%{transform:translate(-51.42px,-27.30px) rotate(-0.65deg)}
+  58.89%{transform:translate(-48.80px,-25.73px) rotate(0.65deg)}
+  60%{transform:translate(-47.60px,-27.29px) rotate(1.52deg)}
+  61.11%{transform:translate(-48.90px,-30.93px) rotate(1.39deg)}
+  62.22%{transform:translate(-52.37px,-34.06px) rotate(0.33deg)}
+  63.33%{transform:translate(-56.40px,-34.64px) rotate(-0.94deg)}
+  64.44%{transform:translate(-59.07px,-32.80px) rotate(-1.59deg)}
+  65.56%{transform:translate(-59.33px,-30.64px) rotate(-1.19deg)}
+  66.67%{transform:translate(-57.61px,-30.46px) rotate(-0.00deg)}
+  67.78%{transform:translate(-55.46px,-32.75px) rotate(1.19deg)}
+  68.89%{transform:translate(-54.62px,-35.85px) rotate(1.59deg)}
+  70%{transform:translate(-56.00px,-37.40px) rotate(0.94deg)}
+  71.11%{transform:translate(-58.71px,-36.12px) rotate(-0.33deg)}
+  72.22%{transform:translate(-60.94px,-33.09px) rotate(-1.39deg)}
+  73.33%{transform:translate(-61.18px,-30.86px) rotate(-1.50deg)}
+  74.44%{transform:translate(-59.31px,-31.33px) rotate(-0.62deg)}
+  75.56%{transform:translate(-56.76px,-33.91px) rotate(0.58deg)}
+  76.67%{transform:translate(-55.31px,-36.25px) rotate(1.27deg)}
+  77.78%{transform:translate(-55.77px,-36.46px) rotate(1.05deg)}
+  78.89%{transform:translate(-57.52px,-34.74px) rotate(0.22deg)}
+  80%{transform:translate(-59.17px,-32.86px) rotate(-0.55deg)}
+  81.11%{transform:translate(-59.66px,-32.33px) rotate(-0.78deg)}
+  82.22%{transform:translate(-59.01px,-33.20px) rotate(-0.47deg)}
+  83.33%{transform:translate(-58.00px,-34.33px) rotate(-0.00deg)}
+  84.44%{transform:translate(-57.43px,-34.73px) rotate(0.27deg)}
+  85.56%{transform:translate(-57.48px,-34.42px) rotate(0.24deg)}
+  86.67%{transform:translate(-57.44px,-33.77px) rotate(0.08deg)}
+  87.78%{transform:translate(-55.46px,-32.38px) rotate(-0.01deg)}
+  88.89%{transform:translate(-51.64px,-30.22px) rotate(-0.02deg)}
+  90%{transform:translate(-46.50px,-27.26px) rotate(-0.00deg)}
+  91.11%{transform:translate(-40.45px,-23.71px) rotate(-0.00deg)}
+  92.22%{transform:translate(-33.81px,-19.82px) rotate(0.00deg)}
+  93.33%{transform:translate(-26.93px,-15.79px) rotate(0.00deg)}
+  94.44%{transform:translate(-20.15px,-11.81px) rotate(0.00deg)}
+  95.56%{transform:translate(-13.82px,-8.10px) rotate(0.00deg)}
+  96.67%{transform:translate(-8.30px,-4.86px) rotate(-0.00deg)}
+  97.78%{transform:translate(-3.92px,-2.30px) rotate(-0.00deg)}
+  98.89%{transform:translate(-1.04px,-0.61px) rotate(-0.00deg)}
+  100%{transform:translate(0.00px,0.00px) rotate(-0.00deg)}
+}
+
+@keyframes smoothHand{
+  0%{transform:translate(0.00px,0.00px) rotate(0.00deg)}
+  2.5%{transform:translate(0.00px,0.00px) rotate(0.00deg)}
+  5%{transform:translate(0.00px,0.00px) rotate(0.00deg)}
+  7.5%{transform:translate(0.00px,0.00px) rotate(0.00deg)}
+  10%{transform:translate(0.00px,0.00px) rotate(0.00deg)}
+  12.5%{transform:translate(-1.76px,-1.03px) rotate(0.00deg)}
+  15%{transform:translate(-6.50px,-3.81px) rotate(0.00deg)}
+  17.5%{transform:translate(-13.45px,-7.89px) rotate(0.00deg)}
+  20%{transform:translate(-21.82px,-12.79px) rotate(0.00deg)}
+  22.5%{transform:translate(-30.81px,-18.06px) rotate(0.00deg)}
+  25%{transform:translate(-39.65px,-23.24px) rotate(0.00deg)}
+  27.5%{transform:translate(-47.54px,-27.87px) rotate(0.00deg)}
+  30%{transform:translate(-53.70px,-31.48px) rotate(0.00deg)}
+  32.5%{transform:translate(-57.35px,-33.62px) rotate(0.00deg)}
+  35%{transform:translate(-58.00px,-34.00px) rotate(0.00deg)}
+  37.5%{transform:translate(-58.00px,-34.00px) rotate(0.00deg)}
+  40%{transform:translate(-58.00px,-34.00px) rotate(0.00deg)}
+  42.5%{transform:translate(-58.00px,-34.00px) rotate(0.00deg)}
+  45%{transform:translate(-58.00px,-34.00px) rotate(0.00deg)}
+  47.5%{transform:translate(-58.00px,-34.00px) rotate(0.00deg)}
+  50%{transform:translate(-58.00px,-34.00px) rotate(0.00deg)}
+  52.5%{transform:translate(-58.00px,-34.00px) rotate(-0.00deg)}
+  55%{transform:translate(-58.00px,-34.00px) rotate(-0.00deg)}
+  57.5%{transform:translate(-58.00px,-34.00px) rotate(-0.00deg)}
+  60%{transform:translate(-58.00px,-34.00px) rotate(-0.00deg)}
+  62.5%{transform:translate(-58.00px,-34.00px) rotate(-0.00deg)}
+  65%{transform:translate(-58.00px,-34.00px) rotate(-0.00deg)}
+  67.5%{transform:translate(-58.00px,-34.00px) rotate(-0.00deg)}
+  70%{transform:translate(-58.00px,-34.00px) rotate(-0.00deg)}
+  72.5%{transform:translate(-58.00px,-34.00px) rotate(-0.00deg)}
+  75%{transform:translate(-58.00px,-34.00px) rotate(-0.00deg)}
+  77.5%{transform:translate(-58.00px,-34.00px) rotate(-0.00deg)}
+  80%{transform:translate(-58.00px,-34.00px) rotate(-0.00deg)}
+  82.5%{transform:translate(-58.00px,-34.00px) rotate(-0.00deg)}
+  85%{transform:translate(-58.00px,-34.00px) rotate(-0.00deg)}
+  87.5%{transform:translate(-56.15px,-32.91px) rotate(-0.00deg)}
+  90%{transform:translate(-46.50px,-27.26px) rotate(-0.00deg)}
+  92.5%{transform:translate(-32.10px,-18.82px) rotate(-0.00deg)}
+  95%{transform:translate(-16.91px,-9.91px) rotate(-0.00deg)}
+  97.5%{transform:translate(-4.89px,-2.87px) rotate(-0.00deg)}
+  100%{transform:translate(-0.00px,0.00px) rotate(-0.00deg)}
+}

@@ -1,0 +1,11 @@
+{
+  // Cloudflare Workers static-assets config for drhiralhalani.com
+  // Deploy:  npx wrangler deploy
+  "name": "drhiralhalani",
+  "compatibility_date": "2025-06-01",
+  "assets": {
+    "directory": "./",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}
