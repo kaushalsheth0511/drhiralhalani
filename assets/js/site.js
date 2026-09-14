@@ -8,6 +8,12 @@
 (function () {
   'use strict';
 
+  /* On refresh, always start from the top instead of the browser
+     restoring the previous scroll position. Anchor links (#stroke
+     etc.) still jump to their section. */
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  if (!location.hash) window.scrollTo(0, 0);
+
   var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---------------------------------------------------------
